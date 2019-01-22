@@ -1,0 +1,16 @@
+[Unit]
+Description=Pchain Daemon
+After=network.target
+
+[Service]
+User=pchain
+Group=pchain
+ExecStart=/home/pchain/pchain/run_pchain.sh
+Restart=on-failure
+
+# Specifies which signal to use when killing a service. Defaults to SIGTERM.
+# SIGHUP gives pchain time to exit cleanly before SIGKILL (default 90s)
+KillSignal=SIGHUP
+
+[Install]
+WantedBy=default.target

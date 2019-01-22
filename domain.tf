@@ -9,7 +9,7 @@ output "domain" {
 # Create a new domain
 resource "digitalocean_domain" "pchain" {
   name       = "pchain.rsk.systems"
-  ip_address = "${digitalocean_droplet.pchain.ipv4_address}"
+  ip_address = "${digitalocean_floating_ip.pchain.id}"
 }
 output "domain_pchain" {
   value = "${digitalocean_domain.pchain.id}"
