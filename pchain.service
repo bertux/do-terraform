@@ -5,7 +5,8 @@ After=network.target
 [Service]
 User=pchain
 Group=pchain
-ExecStart=/home/pchain/pchain/run_pchain.sh
+WorkingDirectory=/home/pchain
+ExecStart=/home/pchain/bin/pchain --datadir=/home/pchain/.pchain --networkid=10000 --port=30201 --rpc --rpcport=6969 --rpcaddr=127.0.0.1 --rpccorsdomain=* --rpcapi=db,eth,net,web3,admin,tdm,miner,personal,chain,txpool --targetgaslimit=97123880000 --syncmode "full" --gcmode=archive --verbosity=4
 Restart=on-failure
 
 # Specifies which signal to use when killing a service. Defaults to SIGTERM.
