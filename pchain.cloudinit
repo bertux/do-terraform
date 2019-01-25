@@ -9,14 +9,20 @@ users:
 packages:
   - git
   - unzip
+  - jq
 runcmd:
-  - cd /home/pchain/
+  - mkdir -p /home/pchain/bin
+  - mkdir -p /home/pchain/src
+  - cd /home/pchain/src
+  - wget https://github.com/bertux/do-terraform/raw/master/pchain.service
+  - cp pchain.service /etc/systemd/system/pchain.service
   - wget https://github.com/pchain-org/pchain/releases/download/pre-release/pchain_init_dirs.zip
   - unzip pchain_init_dirs.zip
-  - mv pchain_init_dirs/pchain .
+  - mv pchain_init_dirs/pchain/.pchain /home/pchain/
+  - mv pchain_init_dirs/pchain/bin/pchain /home/pchain/bin/
+  - mv pchain_init_dirs/pchain/log /home/pchain/
   - rm -rf pchain_init_dirs
-  - cd pchain/
-  - find . -name '*.sh' | xargs chmod +x
+  - cd /home/pchain
   - chmod +x bin/pchain
   - ./bin/pchain -datadir .pchain init .pchain/pchain/eth_genesis.json
   - chmod -R 777 .pchain/*
@@ -25,3 +31,5 @@ runcmd:
   - cp .pchainDevAccount/pchain/priv_validator.json .pchain/pchain/
   - cp -r .pchainDevAccount/pchain/keystore .pchain/pchain/
   - chown -R pchain: /home/pchain/
+  - systemctl enable pchain
+  - systemctl start pchain
